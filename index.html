@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en" class="https://fonts.googleapis.com/css?family=Ubuntu+Condensed">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Vue-Todo</title>
+  
+  
+  <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0/css/bootstrap.css'>
+
+      <link rel="stylesheet" href="css/style.css">
+
+  
+</head>
+
+<body>
+
+  
+<div class="container my-3" id="app">
+  <div class="input-group mb-3">
+    <div class="input-group-prepend"><span class="input-group-text" id="basic-addon1">待辦事項</span></div>
+    <input class="form-control" type="text" placeholder="準備要做的任務" v-model="newTodo"/>
+    <div class="input-group-append">
+      <button class="btn btn-primary" type="button" @click="addTodo">新增</button>
+    </div>
+  </div>
+  <div class="card text-center">
+    <div class="card-header">
+      <ul class="nav nav-tabs card-header-tabs">
+        <li class="nav-item"><a class="nav-link" href="#" :class="{'active': visibility=='all'}" @click="visibility = 'all'">全部</a></li>
+        <li class="nav-item"><a class="nav-link" href="#" :class="{'active': visibility=='active'}" @click="visibility = 'active'">進行中</a></li>
+        <li class="nav-item"><a class="nav-link" href="#" :class="{'active': visibility=='complete'}" @click="visibility = 'complete'">已完成</a></li>
+      </ul>
+    </div>
+    <ul class="list-group list-group-flush text-left" v-for="(item, key) in filterTodo" @dblclick="editTodo(item)">
+      <li class="list-group-item">
+        <div class="d-flex" v-if="cacheTodo.id !== item.id">
+          <div class="form-check">
+            <input class="form-check-input" type="checkbox" :id="item.id" v-model="item.completed"/>
+            <label class="form-check-label" :for="item.id" :class="{'completed': item.completed}">{{item.title}}</label>
+          </div>
+          <button class="close ml-auto" type="button" aria-label="Close"><span aria-hidden="true" @click="removeTodo(item)">×</span></button>
+        </div>
+        <input class="form-control" type="text" v-if="cacheTodo.id == item.id" v-model="cacheTitle" @keyup.esc="cancleEdit" @keyup.enter="saveEdit(item)"/>
+      </li>
+    </ul>
+    <div class="card-footer d-flex justify-content-between"><span>有 {{ taskNum }} 筆 {{ taskNow }}任務</span><a href="#" @click="removeAll">清除所有任務</a></div>
+  </div>
+</div>
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.10/vue.min.js'></script>
+
+  
+
+    <script  src="js/index.js"></script>
+
+
+
+
+</body>
+
+</html>
